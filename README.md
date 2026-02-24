@@ -1,6 +1,6 @@
 # MBR Elementor Form Icons
 
-[![WordPress Plugin Version](https://img.shields.io/badge/version-1.2.9-blue?style=flat-square&logo=wordpress)](https://github.com/madebyrobert/mbr-elementor-form-icons)
+[![WordPress Plugin Version](https://img.shields.io/badge/version-1.2.9-blue?style=flat-square&logo=wordpress)](https://github.com/harbourbob/mbr-elementor-form-icons)
 [![WordPress Tested](https://img.shields.io/badge/WordPress-6.9%20tested-4AB866?style=flat-square&logo=wordpress)](https://wordpress.org)
 [![PHP Version](https://img.shields.io/badge/PHP-7.4%2B-777BB4?style=flat-square&logo=php)](https://php.net)
 [![License](https://img.shields.io/badge/license-GPL%20v2%2B-green?style=flat-square)](https://www.gnu.org/licenses/gpl-2.0.html)
@@ -8,7 +8,7 @@
 
 ---
 
-![MBR Elementor Form Icons](https://raw.githubusercontent.com/madebyrobert/mbr-elementor-form-icons/main/mrb-form.webp)
+![MBR Elementor Form Icons](https://raw.githubusercontent.com/harbourbob/mbr-elementor-form-icons/main/mrb-form.webp)
 
 ---
 
