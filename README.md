@@ -8,7 +8,7 @@
 
 ---
 
-![MBR Elementor Form Icons](https://raw.githubusercontent.com/harbourbob/mbr-elementor-form-icons/main/mrb-form.webp)
+![MBR Elementor Form Icons](mrb-forms.webp)
 
 ---
 
