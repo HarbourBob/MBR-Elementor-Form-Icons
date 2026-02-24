@@ -1,162 +1,98 @@
 === MBR Elementor Form Icons ===
-
-Plugin URI: https://littlewebshack.com
-Author: Robert Palmer
-Author URI: https://madebyrobert.co.uk
+Contributors: robertpalmer
+Tags: elementor, form, icons, font awesome, elementor pro
 Requires at least: 5.8
 Tested up to: 6.9
-Stable tag: 1.2.1
 Requires PHP: 7.4
-License: GPLv3
-License URI: https://www.gnu.org/licenses/gpl-3.0.html
+Stable tag: 1.2.8
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Add Font Awesome icons to your Elementor Pro form fields with flexible positioning options.
+Add Font Awesome icons to Elementor Pro form fields — display them as inline placeholders or above field labels.
 
-## Description
+== Description ==
 
-MBR Elementor Form Icons extends Elementor Pro's Form Widget by adding the ability to include Font Awesome icons in your form fields. Choose from multiple positioning options to create beautiful, intuitive forms that guide users with visual cues.
+MBR Elementor Form Icons lets you enhance your Elementor Pro forms with Font Awesome icons on a per-field basis. Choose to display each icon as a placeholder inside the input field, or alongside the field label above it.
 
-**Features:**
+Designed as a lightweight, free alternative to premium solutions — no upsells, no vendor lock-in.
 
-- Add Font Awesome icons to any form field
-- Multiple icon positioning options:
-  - Above the field
-  - Inside the placeholder text
-  - Inside field (left)
-  - Inside field (right)
-- Customize icon color and size
-- Support for Font Awesome Solid, Regular, and Brands icon sets
-- Works with all standard Elementor form field types
-- Fully responsive
-- RTL language support
-- No configuration needed - works right out of the box
+**Features**
 
-## Requirements
+* Add Font Awesome icons to any Elementor Pro form field
+* Two display modes: placeholder (inside the field) or above (next to the label)
+* Per-field icon, colour, and size controls
+* Full support for Elementor global colours
+* Live preview updates in the Elementor editor
+* Automatically loads Font Awesome from Elementor's bundled copy — no extra HTTP requests
+* Works with single-line inputs and textarea fields
+* No premium version, no upsells
 
-- WordPress 5.8 or higher
-- PHP 7.4 or higher
-- Elementor (free version)
-- Elementor Pro
-- Modern browser with CSS3 support
+**Requirements**
 
-## Installation
+* Elementor (free) — latest version recommended
+* Elementor Pro — required for the Form widget
 
-1. Upload the `mbr-elementor-form-icons` folder to `/wp-content/plugins/`
-2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Edit any page with Elementor
-4. Add or edit a Form Widget
-5. Configure icons in the form field settings
+== Installation ==
 
-## Usage
+1. Upload the `mbr-elementor-form-icons` folder to the `/wp-content/plugins/` directory, or install via the WordPress plugin screen.
+2. Activate the plugin through the **Plugins** screen in WordPress.
+3. Open any page containing an Elementor Pro form in the Elementor editor.
+4. Click a form field to select it, then open the **MBR Icons** tab in the field settings.
+5. Enable the icon toggle, choose your icon, position, colour and size.
 
-### Adding Icons to Form Fields
+== Frequently Asked Questions ==
 
-1. In Elementor, edit a page with a Form Widget
-2. Click on the Form Widget to edit it
-3. Go to Content > Form Fields
-4. Click on any field to expand its settings
-5. Look for the "Enable Icon" toggle (under the field options)
-6. Enable the icon and configure:
-   - **Icon Library**: Choose between Solid, Regular, or Brands
-   - **Icon Class**: Enter the icon name (e.g., `user`, `envelope`, `phone`)
-   - **Icon Position**: Choose where to display the icon
-   - **Icon Color**: Set the icon color
-   - **Icon Size**: Adjust the icon size
+= Does this work with the free version of Elementor? =
 
-### Icon Positioning Options
+The Form widget is an Elementor Pro feature, so Elementor Pro is required. The plugin will not load if Elementor Pro is not active.
 
-**Above Field**
-- Icon appears above the input field
-- Great for adding visual context to form sections
+= Which icons are supported? =
 
-**In Placeholder**
-- Icon is embedded in the placeholder text
-- Uses emoji equivalents for better cross-browser support
-- Best for simple, recognizable icons
+Any Font Awesome icon available in Elementor's icon picker. The plugin loads Font Awesome from Elementor's own bundled copy so no additional stylesheet is added if Font Awesome is already present on the page.
 
-## Styling and Customization
+= Will icons show in the Elementor editor preview? =
 
-The plugin includes default styling that works with most themes. If you need to customize:
+Yes. Icons are injected into the live editor preview and update when you change field settings.
 
-### CSS Customization
+= Does it support Elementor global colours? =
 
-Add custom CSS in Elementor or your theme's custom CSS:
+Yes. Both hex colours and Elementor global colour variables are fully supported.
 
-```css
-/* Change icon color globally */
-.mbr-efi-icon {
-    color: #your-color;
-}
+= Does it work with all field types? =
 
-/* Adjust icon above spacing */
-.mbr-efi-icon-above {
-    margin-bottom: 15px;
-}
+Icons can be added to text, email, textarea, and most standard field types.
 
-/* Customize inside-left icon position */
-.mbr-efi-field-wrapper.mbr-efi-icon-inside-left .mbr-efi-icon {
-    left: 20px;
-}
-```
+== Changelog ==
 
-### Per-Widget Customization
+= 1.2.8 =
+* Fixed: Global colours not applying correctly on the frontend due to missing field type data in localised script output
 
-You can also use Elementor's Custom CSS feature on the Form Widget:
+= 1.2.7 =
+* Fixed: Global colours (CSS custom properties) stripped by hex-only sanitization — now accepts both hex and `var(--e-global-color-*)` values
 
-```css
-selector .mbr-efi-icon {
-    color: #ff0000;
-    font-size: 20px;
-}
-```
+= 1.2.6 =
+* Fixed: Placeholder icon vertical alignment on single-line inputs now centres precisely within the input rather than the field group
+* Fixed: Textarea placeholder icon now positions at the top of the field rather than vertically centred
 
-## Browser Support
+= 1.2.5 =
+* Fixed: Jittery placeholder text shift during editor re-renders caused by orphaned padding-left on inputs
 
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-- Opera (latest)
+= 1.2.4 =
+* Fixed: Editor preview icon injection falling back to field type selector when `elementor-field-group-{id}` classes are absent in the editor preview template
 
-## Changelog
+= 1.2.3 =
+* Fixed: Script execution context detection — injection now correctly targets the preview iframe
+* Improved: Polling-based injection replaces unreliable event-based approach for editor re-renders
 
-### 1.2.1
-- Initial release
-- Support for Font Awesome icons in form fields
-- Four icon positioning options
-- Color and size customization
-- RTL support
-- Responsive design
+= 1.2.2 =
+* Fixed: Icons disappearing after Elementor editor re-renders by switching to pure JavaScript injection
+* Fixed: Font Awesome loaded from Elementor's bundled copy with CDN fallback
+* Fixed: Stale DOM references replaced with live `document.querySelector` calls
 
-## Credits
+= 1.2.1 =
+* Initial public release
 
-- Developed by **Robert Palmer**
-- Website: https://littlewebshack.com
-- Icons by Font Awesome (https://fontawesome.com)
+== Upgrade Notice ==
 
-## License
-
-This plugin is licensed under GPL v2 or later.
-
-```
-Copyright (C) 2026 Made by Robert
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-```
-
-## Support
-
-For bug reports, feature requests, or contributions, please visit:
-https://littlewebshack.com
-
----
-
-Made with ❤️ by Robert in Cleethorpes, England
+= 1.2.8 =
+Fixes global colours not applying on the frontend. Update recommended.

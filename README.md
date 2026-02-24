@@ -1,38 +1,35 @@
 # MBR Elementor Form Icons
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://littlewebshack.com)
-[![WordPress](https://img.shields.io/badge/WordPress-5.8%2B-21759b.svg?logo=wordpress&logoColor=white)](https://wordpress.org)
-[![Elementor Pro](https://img.shields.io/badge/Elementor_Pro-3.0%2B-92003b.svg?logo=elementor&logoColor=white)](https://elementor.com)
-[![PHP](https://img.shields.io/badge/PHP-7.4%2B-777bb4.svg?logo=php&logoColor=white)](https://php.net)
-[![Font Awesome](https://img.shields.io/badge/Font_Awesome-6.5.1-528dd7.svg?logo=font-awesome&logoColor=white)](https://fontawesome.com)
-[![License](https://img.shields.io/badge/License-GPL_v2%2B-green.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
-[![Made by Robert](https://img.shields.io/badge/Made_by-Robert-orange.svg)](https://littlewebshack.com)
-
-> Add beautiful Font Awesome icons to your Elementor Pro form fields — beautifully and effortlessly.
+[![WordPress Plugin Version](https://img.shields.io/badge/version-1.2.8-blue?style=flat-square&logo=wordpress)](https://github.com/madebyrobert/mbr-elementor-form-icons)
+[![WordPress Tested](https://img.shields.io/badge/WordPress-6.9%20tested-4AB866?style=flat-square&logo=wordpress)](https://wordpress.org)
+[![PHP Version](https://img.shields.io/badge/PHP-7.4%2B-777BB4?style=flat-square&logo=php)](https://php.net)
+[![License](https://img.shields.io/badge/license-GPL%20v2%2B-green?style=flat-square)](https://www.gnu.org/licenses/gpl-2.0.html)
+[![Requires Elementor Pro](https://img.shields.io/badge/requires-Elementor%20Pro-E2215B?style=flat-square)](https://elementor.com/pro)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-☕-FFDD00?style=flat-square)](https://buymeacoffee.com/robertpalmer/)
 
 ---
 
-## 📸 Preview
+![MBR Elementor Form Icons](https://raw.githubusercontent.com/madebyrobert/mbr-elementor-form-icons/main/mbr-form.webp)
 
-```
-Name    [ 👤  Name...          ]
-Email   [ ✉️  Email...         ]
-Message [ ✏️  Your message...  ]
-        [       Send           ]
-```
+---
+
+**Add Font Awesome icons to your Elementor Pro form fields — beautifully, simply, for free.**
+
+Choose between two display modes: drop an icon *inside* the field as a placeholder, or place it *above* alongside the label. Control icon, colour, and size on a per-field basis, with full support for Elementor global colours and live editor preview updates.
+
+No premium tier. No upsells. No vendor lock-in. Just a clean, well-built tool that does exactly what it says.
 
 ---
 
 ## ✨ Features
 
-- 🎨 **Native Elementor Icon Library** — Choose from thousands of Font Awesome icons using Elementor's built-in visual icon picker
-- 📍 **Two Positioning Options** — Above the field label, or inside the field as an overlay icon
-- 🎨 **Full Customisation** — Control icon colour and size per field
-- 📐 **Smart Textarea Handling** — Icons in textarea fields pin to the top rather than centering
-- 🙈 **Hide on Input** — Placeholder icons gracefully disappear when users start typing
-- ⚡ **Lightweight** — Clean data-attribute approach with no inline scripts
-- 📱 **Responsive** — Works perfectly on all screen sizes
-- 🔧 **Per-Field Control** — Enable icons on individual fields independently
+- **Two icon modes** — placeholder (inside the input) or above (next to the label)
+- **Per-field controls** — individual icon, colour, and size for every field
+- **Global colour support** — works seamlessly with Elementor's global colour system
+- **Live editor preview** — icons update in real time as you edit in Elementor
+- **Zero bloat** — Font Awesome is loaded from Elementor's own bundled copy; no extra HTTP requests if it's already on the page
+- **Textarea aware** — icons pin to the top of multi-line fields rather than awkwardly centring
+- **Clean injection** — pure JavaScript DOM injection; no PHP template overrides
 
 ---
 
@@ -40,147 +37,95 @@ Message [ ✏️  Your message...  ]
 
 | Requirement | Version |
 |---|---|
-| WordPress | 5.8 or higher |
-| PHP | 7.4 or higher |
-| Elementor Pro | 3.0 or higher |
-
-> ⚠️ **Elementor Pro is required.** The Form widget is a Pro-only feature.
+| WordPress | 5.8 or later |
+| PHP | 7.4 or later |
+| Elementor (free) | Latest recommended |
+| Elementor Pro | Required (Form widget) |
 
 ---
 
 ## 🚀 Installation
 
-1. Download the latest release ZIP
-2. In your WordPress admin go to **Plugins → Add New → Upload Plugin**
-3. Upload the ZIP file and click **Install Now**
-4. Click **Activate Plugin**
-
-Or manually:
-```
-wp-content/plugins/
-└── mbr-elementor-form-icons/
-```
+1. Download the latest release zip from the [Releases](https://github.com/madebyrobert/mbr-elementor-form-icons/releases) page
+2. In your WordPress dashboard go to **Plugins → Add New → Upload Plugin**
+3. Upload the zip and click **Install Now**, then **Activate**
+4. Open any page with an Elementor Pro form in the editor
+5. Click a form field → open the **MBR Icons** tab → enable the toggle and configure
 
 ---
 
-## 📖 How to Use
+## 🛠️ How It Works
 
-1. Edit any page in Elementor
-2. Add or select an existing **Form** widget
-3. Click on any **form field** in the panel
-4. Scroll down to find the **Icon** section
-5. Toggle **Enable Icon** to **Yes**
-6. Click **Choose Icon** to open Elementor's icon library
-7. Select your icon, then set:
-   - **Icon Position** — Above Field or In Placeholder
-   - **Icon Color** — Hex colour picker
-   - **Icon Size** — 10px to 50px slider
-8. Click **Update** or **Preview** to see your icons
+Elementor Pro's form widget renders its fields client-side via JavaScript templates — standard PHP `render_content` filters get discarded milliseconds after the page loads. MBR Elementor Form Icons works around this by injecting icons purely via JavaScript after Elementor's render cycle completes.
 
-> ℹ️ Icon changes are visible in **Preview mode** or on the **Frontend**. The Elementor editor live preview does not reflect icon changes in real time.
+On the **frontend**, field data (icon, colour, size, position) is baked server-side into a localised script variable (`mbrEfiData`) and injected once Elementor signals the widget is ready via `frontend/element_ready`.
+
+In the **editor preview**, the plugin polls the live DOM and reads icon settings directly from Elementor's Backbone model — so changes in the settings panel are reflected in the preview without needing to save.
 
 ---
 
-## 🎯 Icon Positions
-
-### Above Field
-The icon appears to the left of the field label, providing a visual cue above the input.
-
-```
-[👤] Name
-┌─────────────────────────┐
-│ Your name...            │
-└─────────────────────────┘
-```
-
-### In Placeholder
-The icon is overlaid inside the field, sitting alongside the placeholder text. It disappears when the user begins typing.
-
-```
-┌─────────────────────────┐
-│ 👤  Your name...        │
-└─────────────────────────┘
-```
-
----
-
-## 🗂️ File Structure
+## 📁 File Structure
 
 ```
 mbr-elementor-form-icons/
+├── mbr-elementor-form-icons.php   # Main plugin file
 ├── assets/
-│   ├── css/
-│   │   ├── form-icons.css       # Frontend styles
-│   │   └── editor.css           # Editor panel styles
 │   └── js/
-│       ├── form-icons.js        # Frontend icon rendering
-│       └── editor.js            # Editor panel behaviour
-├── includes/
-│   ├── class-form-field-controls.php   # Adds controls to Elementor panel
-│   └── class-form-field-renderer.php   # Renders icon data attributes
-├── mbr-elementor-form-icons.php        # Main plugin file
-├── uninstall.php
-├── readme.md
-└── readme.txt
+│       └── form-icons.js          # Frontend + editor injection logic
+├── readme.txt                     # WordPress.org readme
+└── README.md                      # This file
 ```
 
 ---
 
-## 🔧 Troubleshooting
+## 📝 Changelog
 
-**Icons not showing on the frontend?**
-- Confirm Elementor Pro is active
-- Clear any caching plugins
-- Ensure **Enable Icon** is toggled on for the field
-- Click **Update** in the editor to save settings
+### 1.2.8
+- Fixed global colours not applying on the frontend due to missing field type in localised data
 
-**Icon color not applying?**
-- Use the hex colour picker — global Elementor colours are not supported in this version
+### 1.2.7
+- Fixed global colour CSS variables (`var(--e-global-color-*)`) being stripped by hex-only sanitization
 
-**Icons look misaligned?**
-- Try adjusting the icon size slider
-- Check for conflicting theme or plugin CSS targeting `.elementor-field-label` or `.elementor-field-group`
+### 1.2.6
+- Fixed placeholder icon vertical alignment on single-line inputs — now centres within the input itself, not the field group
+- Fixed textarea placeholder icons now pin to the top of the field
 
----
+### 1.2.5
+- Fixed jittery placeholder text shift during editor re-renders caused by orphaned `padding-left` on inputs
 
-## 📜 Changelog
+### 1.2.4
+- Fixed editor preview injection when `elementor-field-group-{id}` classes are absent from the editor template — falls back to field type matching
 
-### 1.0.0
+### 1.2.3
+- Fixed script execution context — injection now correctly targets the preview iframe
+- Replaced unreliable event-based approach with polling for editor re-render detection
+
+### 1.2.2
+- Fixed icons disappearing after Elementor editor re-renders
+- Fixed Font Awesome loading from Elementor's bundled copy with CDN fallback
+- Fixed stale DOM references with live `document.querySelector` calls
+
+### 1.2.1
 - Initial release
-- Elementor native icon library integration
-- Above field and placeholder positioning
-- Per-field colour and size controls
-- Smart textarea top-positioning
-- Data attribute rendering architecture
 
 ---
 
-## 📄 License
+## 🤝 Contributing
 
-**GPL v2 or later** — Free to use, modify, and distribute.  
-See [GNU General Public License](https://www.gnu.org/licenses/gpl-2.0.html) for details.
+Found a bug or have a feature idea? [Open an issue](https://github.com/madebyrobert/mbr-elementor-form-icons/issues) or submit a pull request. All contributions welcome.
 
 ---
 
 ## 👨‍💻 Author
 
-**Made by Robert**  
-WordPress Developer — Cleethorpes, England 🇬🇧
+Built by **Robert Palmer** at [Little Web Shack](https://littlewebshack.com) — bespoke WordPress development based in the UK.
 
-- 🌐 [littlewebshack.com](https://littlewebshack.com)
-- 🔌 More free plugins available on the website
+If this plugin saves you time or money, a coffee is always appreciated! ☕
 
----
-
-## 🌟 Other Free Plugins by Made by Robert
-
-| Plugin | Description |
-|---|---|
-| MBR Cookie Consent | GDPR/CCPA compliant cookie consent manager |
-| MBR Live Radio Player | Embedded live radio streaming player |
-| Advanced Asset Manager | WordPress media and asset management |
-| MBR WP Performance | Comprehensive WordPress performance optimiser |
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-buymeacoffee.com-FFDD00?style=for-the-badge&logo=buy-me-a-coffee)](https://buymeacoffee.com/robertpalmer/)
 
 ---
 
-*Made with ❤️ for the WordPress community*
+## 📄 License
+
+Released under the [GNU General Public License v2 or later](https://www.gnu.org/licenses/gpl-2.0.html).

@@ -1,65 +1,74 @@
 /**
- * MBR Elementor Form Icons - Editor Scripts
- * Ensures Font Awesome is loaded and hides global colors button
+ * MBR Elementor Form Icons - Editor Panel Script
+ *
+ * Runs in the editor panel (sidebar) context.
+ *
+ * Responsibilities:
+ *  1. When any mbr_* setting changes on the form widget, trigger a full
+ *     preview re-render so the PHP inject_icons() sees the new values.
+ *  2. Hide the global colours switcher on the icon colour control.
  */
 
-(function($) {
-    'use strict';
-    
-    $(window).on('elementor:init', function() {
-        
-        // Function to hide global colors button
-        function hideGlobalColorsButton() {
-            // Find and remove the global colors button for mbr_icon_color
-            $('.elementor-control-mbr_icon_color .elementor-control-dynamic-switcher').each(function() {
-                $(this).remove(); // Completely remove it from DOM
-            });
-        }
-        
-        // Hide on panel open
-        elementor.hooks.addAction('panel/open_editor/widget', function(panel, model, view) {
-            setTimeout(hideGlobalColorsButton, 100);
-            setTimeout(hideGlobalColorsButton, 500);
-            setTimeout(hideGlobalColorsButton, 1000);
-        });
-        
-        // Watch for DOM changes in the panel
-        var observer = new MutationObserver(function(mutations) {
-            hideGlobalColorsButton();
-        });
-        
-        // Start observing the panel
-        setTimeout(function() {
-            var panelElement = document.querySelector('#elementor-panel-content-wrapper');
-            if (panelElement) {
-                observer.observe(panelElement, {
-                    childList: true,
-                    subtree: true
-                });
+'use strict';
+
+( function ( $, w ) {
+
+    $( w ).on( 'elementor:init', function () {
+
+        /* ------------------------------------------------------------------
+         * Listen for setting changes on form widgets and force a re-render.
+         *
+         * Elementor's PHP-rendered widgets don't auto-refresh when repeater
+         * sub-fields change. We hook into the editor channel to detect when
+         * any mbr_* field has changed and call elementor.reloadPreview()
+         * (or the lighter per-widget re-render if available).
+         * ------------------------------------------------------------------ */
+        elementor.channels.editor.on( 'change', function ( model ) {
+
+            // model.changed is an object of what just changed
+            var changed = model.changed || {};
+
+            // Check if form_fields repeater changed (our controls live inside it)
+            if ( ! changed.hasOwnProperty( 'form_fields' ) ) {
+                return;
             }
-        }, 1000);
-        
-        // Also use jQuery event delegation
-        $(document).on('DOMNodeInserted', '.elementor-control-mbr_icon_color', function() {
-            setTimeout(hideGlobalColorsButton, 50);
-        });
-        
-        // Run periodically
-        setInterval(hideGlobalColorsButton, 2000);
-        
-        // Ensure Font Awesome is loaded in the preview iframe
-        var fontAwesomeCheckInterval = setInterval(function() {
-            var $iframe = $('#elementor-preview-iframe');
-            if ($iframe.length) {
-                var iframeDoc = $iframe.contents();
-                if (!iframeDoc.find('link[href*="font-awesome"]').length) {
-                    iframeDoc.find('head').append(
-                        '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">'
-                    );
+
+            // Check if the widget is a form widget
+            var container = elementor.channels.editor.request( 'editor:current:container' );
+            if ( ! container ) return;
+
+            var widgetType = container.model.get( 'widgetType' );
+            if ( 'form' !== widgetType ) return;
+
+            // Debounce to avoid rapid-fire reloads while typing
+            clearTimeout( w._mbrEfiReloadTimeout );
+            w._mbrEfiReloadTimeout = setTimeout( function () {
+                // Use the targeted widget re-render if available (Elementor 3.x)
+                if ( typeof elementor.reloadPreview === 'function' ) {
+                    elementor.reloadPreview();
                 }
-                clearInterval(fontAwesomeCheckInterval);
-            }
-        }, 500);
-    });
-    
-})(jQuery);
+            }, 500 );
+        } );
+
+        /* ------------------------------------------------------------------
+         * Hide the global colour switcher on mbr_icon_color.
+         * ------------------------------------------------------------------ */
+        function hideGlobalColorSwitcher() {
+            $( '.elementor-control-mbr_icon_color .elementor-control-dynamic-switcher' ).remove();
+        }
+
+        elementor.hooks.addAction( 'panel/open_editor/widget', function () {
+            setTimeout( hideGlobalColorSwitcher, 150 );
+            setTimeout( hideGlobalColorSwitcher, 600 );
+        } );
+
+        setTimeout( function () {
+            var panel = document.querySelector( '#elementor-panel-content-wrapper' );
+            if ( ! panel ) return;
+            new MutationObserver( hideGlobalColorSwitcher )
+                .observe( panel, { childList: true, subtree: true } );
+        }, 1000 );
+
+    } );
+
+} ( jQuery, window ) );

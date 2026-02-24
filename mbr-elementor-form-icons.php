@@ -3,7 +3,7 @@
  * Plugin Name: MBR Elementor Form Icons
  * Plugin URI: https://littlewebshack.com
  * Description: Add Font Awesome icons to Elementor Pro form fields - in placeholders or above fields
- * Version: 1.2.1
+ * Version: 1.2.8
  * Author: Robert Palmer
  * Author URI: https://littlewebshack.com
  * License: GPL v2 or later
@@ -14,10 +14,7 @@
  * Requires PHP: 7.4
  */
 
-// Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 // Buy Me a Coffee
 add_filter( 'plugin_row_meta', function ( $links, $file, $data ) {
@@ -31,178 +28,215 @@ add_filter( 'plugin_row_meta', function ( $links, $file, $data ) {
         '<a href="%s" target="_blank" rel="noopener nofollow" aria-label="%s">☕ %s</a>',
         esc_url( $url ),
 		// translators: %s: The name of the plugin author.
-        esc_attr( sprintf( __( 'Buy %s a coffee', 'mbr-elementor-form-icons' ), isset( $data['AuthorName'] ) ? $data['AuthorName'] : __( 'the author', 'mbr-elementor-form-icons' ) ) ),
-        esc_html__( 'Buy me a coffee', 'mbr-elementor-form-icons' )
+        esc_attr( sprintf( __( 'Buy %s a coffee', 'madebyrobert-advanced-asset-manager' ), isset( $data['AuthorName'] ) ? $data['AuthorName'] : __( 'the author', 'madebyrobert-advanced-asset-manager' ) ) ),
+        esc_html__( 'Buy me a coffee', 'madebyrobert-advanced-asset-manager' )
     );
 
     return $links;
 }, 10, 3 );
 
+define( 'MBR_EFI_VERSION',         '1.2.8' );
+define( 'MBR_EFI_PLUGIN_DIR',      plugin_dir_path( __FILE__ ) );
+define( 'MBR_EFI_PLUGIN_URL',      plugin_dir_url( __FILE__ ) );
+define( 'MBR_EFI_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
-// Define plugin constants
-define('MBR_EFI_VERSION', '1.0.0');
-define('MBR_EFI_PLUGIN_DIR', plugin_dir_path(__FILE__));
-define('MBR_EFI_PLUGIN_URL', plugin_dir_url(__FILE__));
-define('MBR_EFI_PLUGIN_BASENAME', plugin_basename(__FILE__));
-
-/**
- * Main Plugin Class
- */
 class MBR_Elementor_Form_Icons {
-    
-    /**
-     * Instance of this class
-     */
+
     private static $instance = null;
-    
-    /**
-     * Get instance
-     */
+
     public static function get_instance() {
-        if (null === self::$instance) {
-            self::$instance = new self();
-        }
+        if ( null === self::$instance ) self::$instance = new self();
         return self::$instance;
     }
-    
-    /**
-     * Constructor
-     */
+
     private function __construct() {
-        add_action('plugins_loaded', [$this, 'init']);
+        add_action( 'plugins_loaded', [ $this, 'init' ] );
     }
-    
-    /**
-     * Initialize plugin
-     */
+
     public function init() {
-        // Check if Elementor is installed and activated
-        if (!did_action('elementor/loaded')) {
-            add_action('admin_notices', [$this, 'admin_notice_missing_elementor']);
+        if ( ! did_action( 'elementor/loaded' ) ) {
+            add_action( 'admin_notices', [ $this, 'notice_no_elementor' ] );
             return;
         }
-        
-        // Check if Elementor Pro is installed and activated
-        if (!function_exists('elementor_pro_load_plugin')) {
-            add_action('admin_notices', [$this, 'admin_notice_missing_elementor_pro']);
+        if ( ! function_exists( 'elementor_pro_load_plugin' ) ) {
+            add_action( 'admin_notices', [ $this, 'notice_no_elementor_pro' ] );
             return;
         }
-        
-        // Load plugin files
-        $this->load_files();
-        
-        // Initialize components
-        add_action('elementor/init', [$this, 'init_components']);
-        
-        // Enqueue scripts and styles
-        add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_assets']);
-        add_action('elementor/editor/after_enqueue_scripts', [$this, 'enqueue_editor_assets']);
-    }
-    
-    /**
-     * Load plugin files
-     */
-    private function load_files() {
+
         require_once MBR_EFI_PLUGIN_DIR . 'includes/class-form-field-controls.php';
-        require_once MBR_EFI_PLUGIN_DIR . 'includes/class-form-field-renderer.php';
+
+        add_action( 'elementor/init', [ $this, 'init_components' ] );
+        add_action( 'elementor/frontend/after_enqueue_styles', [ $this, 'enqueue_frontend_assets' ] );
+        add_action( 'elementor/editor/after_enqueue_scripts',  [ $this, 'enqueue_editor_assets' ] );
     }
-    
-    /**
-     * Initialize components
-     */
+
     public function init_components() {
         MBR_EFI_Form_Field_Controls::get_instance();
-        MBR_EFI_Form_Field_Renderer::get_instance();
     }
-    
+
+    private static function sanitize_color( string $color ): string {
+        $color = trim( $color );
+        if ( '' === $color ) return '';
+        if ( sanitize_hex_color( $color ) ) return $color;
+        if ( preg_match( '/^var\(--[a-zA-Z0-9_-]+\)$/' , $color ) ) return $color;
+        return '';
+    }
+
+    private function get_current_post_id() {
+        if ( isset( $_GET['post_id'] ) && intval( $_GET['post_id'] ) ) {
+            return intval( $_GET['post_id'] );
+        }
+        $id = get_queried_object_id();
+        if ( $id ) return $id;
+        return get_the_ID();
+    }
+
+    private function collect_form_icons( array $elements, array &$data ) {
+        foreach ( $elements as $element ) {
+            if ( ! is_array( $element ) ) continue;
+            if ( ( $element['widgetType'] ?? '' ) === 'form' ) {
+                $widget_id   = $element['id'] ?? '';
+                $widget_data = [];
+                foreach ( $element['settings']['form_fields'] ?? [] as $field ) {
+                    if ( ( $field['mbr_enable_icon'] ?? '' ) !== 'yes' ) continue;
+                    $icon_value = $field['mbr_selected_icon']['value'] ?? '';
+                    if ( ! $icon_value ) continue;
+                    $widget_data[ $field['custom_id'] ] = [
+                        'icon'     => sanitize_text_field( $icon_value ),
+                        'position' => sanitize_text_field( $field['mbr_icon_position'] ?? 'above' ),
+                        'color'    => ( self::sanitize_color( $field['mbr_icon_color'] ?? '' ) ?: '#333333' ),
+                        'size'     => intval( $field['mbr_icon_size']['size'] ?? 16 ),
+                        'type'     => sanitize_text_field( $field['field_type'] ?? '' ),
+                    ];
+                }
+                if ( $widget_id && ! empty( $widget_data ) ) {
+                    $data[ $widget_id ] = $widget_data;
+                }
+            }
+            if ( ! empty( $element['elements'] ) && is_array( $element['elements'] ) ) {
+                $this->collect_form_icons( $element['elements'], $data );
+            }
+        }
+    }
+
+    private function localize_icon_data() {
+        $post_id = $this->get_current_post_id();
+        if ( ! $post_id ) return;
+
+        $elementor = \Elementor\Plugin::instance();
+        if ( ! $elementor || ! isset( $elementor->documents ) ) return;
+
+        $document = $elementor->documents->get( $post_id );
+        if ( ! $document ) return;
+
+        $elements = $document->get_elements_data();
+        if ( empty( $elements ) || ! is_array( $elements ) ) return;
+
+        $data = [];
+        $this->collect_form_icons( $elements, $data );
+
+        if ( ! empty( $data ) ) {
+            wp_localize_script( 'mbr-efi-scripts', 'mbrEfiData', $data );
+        }
+    }
+
     /**
-     * Enqueue frontend assets
+     * Enqueue Font Awesome from Elementor's own bundled copy.
+     *
+     * Elementor ships FA inside its plugin at:
+     *   /wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css
+     *
+     * This avoids CDN requests (which may be blocked by the host's CSP)
+     * and avoids loading a duplicate when Elementor has already loaded it.
      */
+    private function enqueue_font_awesome() {
+
+        // If FA is already on the page via any handle, do nothing.
+        $existing_handles = [
+            'font-awesome-6-all', 'font-awesome-5-all',
+            'font-awesome-6-solid', 'font-awesome-5-solid',
+            'font-awesome', 'fontawesome',
+        ];
+        foreach ( $existing_handles as $handle ) {
+            if ( wp_style_is( $handle, 'enqueued' ) || wp_style_is( $handle, 'done' ) ) {
+                return;
+            }
+        }
+
+        // Load from Elementor's bundled FA — same files, no external request.
+        // ELEMENTOR_URL is defined by Elementor core on every request.
+        $fa_url = ELEMENTOR_URL . 'assets/lib/font-awesome/css/all.min.css';
+
+        // Verify the file actually exists at that path before enqueuing
+        $fa_path = ELEMENTOR_PATH . 'assets/lib/font-awesome/css/all.min.css';
+
+        if ( file_exists( $fa_path ) ) {
+            wp_enqueue_style(
+                'mbr-efi-fontawesome',
+                $fa_url,
+                [],
+                ELEMENTOR_VERSION
+            );
+        } else {
+            // Fallback: try the CDN
+            wp_enqueue_style(
+                'mbr-efi-fontawesome',
+                'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css',
+                [],
+                '6.5.1'
+            );
+        }
+    }
+
     public function enqueue_frontend_assets() {
-        // Always enqueue Font Awesome
-        wp_enqueue_style(
-            'mbr-efi-fontawesome',
-            'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css',
-            [],
-            '6.5.1'
-        );
-        
-        // Enqueue plugin styles
+
+        $this->enqueue_font_awesome();
+
         wp_enqueue_style(
             'mbr-efi-styles',
             MBR_EFI_PLUGIN_URL . 'assets/css/form-icons.css',
-            ['mbr-efi-fontawesome'],
+            [],
             MBR_EFI_VERSION
         );
-        
-        // Enqueue jQuery (core dependency)
-        wp_enqueue_script('jquery');
-        
-        // Enqueue plugin scripts
+
         wp_enqueue_script(
             'mbr-efi-scripts',
             MBR_EFI_PLUGIN_URL . 'assets/js/form-icons.js',
-            ['jquery'],
+            [ 'jquery', 'elementor-frontend' ],
             MBR_EFI_VERSION,
             true
         );
+
+        $this->localize_icon_data();
     }
-    
-    /**
-     * Enqueue editor assets
-     */
+
     public function enqueue_editor_assets() {
-        // Enqueue Font Awesome in editor too
-        wp_enqueue_style(
-            'mbr-efi-fontawesome-editor',
-            'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css',
-            [],
-            '6.5.1'
-        );
-        
         wp_enqueue_style(
             'mbr-efi-editor-styles',
             MBR_EFI_PLUGIN_URL . 'assets/css/editor.css',
             [],
             MBR_EFI_VERSION
         );
-        
-        // Enqueue editor JavaScript
         wp_enqueue_script(
             'mbr-efi-editor-scripts',
             MBR_EFI_PLUGIN_URL . 'assets/js/editor.js',
-            ['jquery', 'elementor-editor'],
+            [ 'jquery', 'elementor-editor' ],
             MBR_EFI_VERSION,
             true
         );
     }
-    
-    /**
-     * Admin notice - Elementor not installed
-     */
-    public function admin_notice_missing_elementor() {
-        $message = sprintf(
-            esc_html__('"%1$s" requires "%2$s" to be installed and activated.', 'mbr-elementor-form-icons'),
-            '<strong>' . esc_html__('MBR Elementor Form Icons', 'mbr-elementor-form-icons') . '</strong>',
-            '<strong>' . esc_html__('Elementor', 'mbr-elementor-form-icons') . '</strong>'
-        );
-        
-        printf('<div class="notice notice-warning is-dismissible"><p>%s</p></div>', wp_kses_post($message));
+
+    public function notice_no_elementor() {
+        printf( '<div class="notice notice-warning is-dismissible"><p>%s</p></div>',
+            wp_kses_post( sprintf( __( '"%1$s" requires "%2$s" to be installed and activated.', 'mbr-elementor-form-icons' ),
+                '<strong>MBR Elementor Form Icons</strong>', '<strong>Elementor</strong>' ) ) );
     }
-    
-    /**
-     * Admin notice - Elementor Pro not installed
-     */
-    public function admin_notice_missing_elementor_pro() {
-        $message = sprintf(
-            esc_html__('"%1$s" requires "%2$s" to be installed and activated.', 'mbr-elementor-form-icons'),
-            '<strong>' . esc_html__('MBR Elementor Form Icons', 'mbr-elementor-form-icons') . '</strong>',
-            '<strong>' . esc_html__('Elementor Pro', 'mbr-elementor-form-icons') . '</strong>'
-        );
-        
-        printf('<div class="notice notice-warning is-dismissible"><p>%s</p></div>', wp_kses_post($message));
+
+    public function notice_no_elementor_pro() {
+        printf( '<div class="notice notice-warning is-dismissible"><p>%s</p></div>',
+            wp_kses_post( sprintf( __( '"%1$s" requires "%2$s" to be installed and activated.', 'mbr-elementor-form-icons' ),
+                '<strong>MBR Elementor Form Icons</strong>', '<strong>Elementor Pro</strong>' ) ) );
     }
 }
 
-// Initialize plugin
 MBR_Elementor_Form_Icons::get_instance();
