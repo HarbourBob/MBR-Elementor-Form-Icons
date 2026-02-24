@@ -45,7 +45,7 @@ No premium tier. No upsells. No vendor lock-in. Just a clean, well-built tool th
 
 ## 🚀 Installation
 
-1. Download the latest release zip from the [Releases](https://github.com/madebyrobert/mbr-elementor-form-icons/releases) page
+1. Download the latest release zip from the [Releases](https://github.com/harbourbob/mbr-elementor-form-icons/releases) page
 2. In your WordPress dashboard go to **Plugins → Add New → Upload Plugin**
 3. Upload the zip and click **Install Now**, then **Activate**
 4. Open any page with an Elementor Pro form in the editor
