@@ -39,18 +39,6 @@
         return ( window.mbrEfiData || {} )[ widgetId ] || null;
     }
 
-    function findFieldGroup( $el, fieldId, fieldType ) {
-        var $group = $el.find( '.elementor-field-group-' + fieldId );
-        if ( $group.length ) return $group;
-        if ( fieldType ) {
-            $group = $el.find( '.elementor-field-type-' + fieldType ).first();
-            if ( $group.length && ! $group.find( '.mbr-efi-icon, .mbr-efi-placeholder-icon' ).length ) {
-                return $group;
-            }
-        }
-        return $();
-    }
-
     function injectIcons( widgetId ) {
         var el = document.querySelector( '.elementor-element-' + widgetId );
         if ( ! el || ! document.body.contains( el ) ) return;
@@ -60,7 +48,7 @@
 
         var $el = $( el );
 
-        // First pass: reset any orphaned padding (icon gone but padding remains)
+        // Reset any orphaned padding (icon gone but padding-left remains on input)
         $el.find( 'input.mbr-efi-padded, textarea.mbr-efi-padded' ).each( function() {
             var $input = $( this );
             var $group = $input.closest( '.elementor-field-group' );
@@ -69,10 +57,36 @@
             }
         } );
 
+        // Build a positional index of DOM field groups by type.
+        // The editor preview omits elementor-field-group-{id} classes so we fall
+        // back to matching each field by its type + its ordinal position among
+        // fields of that type — which mirrors the Backbone model order.
+        var typeIndex   = {};
+        var typeCounter = {};
+        $el.find( '.elementor-field-group' ).each( function() {
+            var match = this.className.match( /elementor-field-type-(\S+)/ );
+            if ( ! match ) return;
+            var type = match[1];
+            if ( ! typeIndex[ type ] ) typeIndex[ type ] = [];
+            typeIndex[ type ].push( this );
+        } );
+
         $.each( data, function ( fieldId, field ) {
-            var $group = findFieldGroup( $el, fieldId, field.type );
+
+            // Standard selector — works on the frontend where field-group-{id} exists
+            var $group = $el.find( '.elementor-field-group-' + fieldId );
+
+            // Fallback for editor preview: match by type + ordinal position
+            if ( ! $group.length && field.type && typeIndex[ field.type ] ) {
+                if ( typeCounter[ field.type ] === undefined ) typeCounter[ field.type ] = 0;
+                var domNode = typeIndex[ field.type ][ typeCounter[ field.type ] ];
+                typeCounter[ field.type ]++;
+                if ( domNode ) $group = $( domNode );
+            }
+
             if ( ! $group.length ) return;
 
+            // Skip if already injected
             if ( $group.find( '.mbr-efi-icon, .mbr-efi-placeholder-icon' ).length ) return;
 
             var iconStyle = 'color:' + field.color + ';font-size:' + field.size + 'px;line-height:1;';
@@ -89,10 +103,10 @@
                 $group.css( 'position', 'relative' );
                 var $input = $group.find( 'input, textarea' ).first();
                 if ( ! $input.length ) return;
-                var isTextarea = $input.is( 'textarea' );
+                var isTextarea  = $input.is( 'textarea' );
                 var inputTop    = $input[0].offsetTop;
                 var inputHeight = $input[0].offsetHeight;
-                var iconPos = isTextarea
+                var iconPos     = isTextarea
                     ? 'position:absolute;left:12px;top:' + ( inputTop + 10 ) + 'px;transform:none;pointer-events:none;z-index:1;'
                     : 'position:absolute;left:12px;top:' + ( inputTop + Math.floor( inputHeight / 2 ) ) + 'px;transform:translateY(-50%);pointer-events:none;z-index:1;';
                 $group.append( $( '<i>', {

@@ -3,7 +3,7 @@
  * Plugin Name: MBR Elementor Form Icons
  * Plugin URI: https://littlewebshack.com
  * Description: Add Font Awesome icons to Elementor Pro form fields - in placeholders or above fields
- * Version: 1.2.8
+ * Version: 1.2.9
  * Author: Robert Palmer
  * Author URI: https://littlewebshack.com
  * License: GPL v2 or later
@@ -16,26 +16,17 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-// Buy Me a Coffee
 add_filter( 'plugin_row_meta', function ( $links, $file, $data ) {
-    if ( ! function_exists( 'plugin_basename' ) || $file !== plugin_basename( __FILE__ ) ) {
-        return $links;
-    }
-
-    $url = 'https://buymeacoffee.com/robertpalmer/';
+    if ( $file !== plugin_basename( __FILE__ ) ) return $links;
     $links[] = sprintf(
-	// translators: %s: The name of the plugin author.
-        '<a href="%s" target="_blank" rel="noopener nofollow" aria-label="%s">☕ %s</a>',
-        esc_url( $url ),
-		// translators: %s: The name of the plugin author.
-        esc_attr( sprintf( __( 'Buy %s a coffee', 'madebyrobert-advanced-asset-manager' ), isset( $data['AuthorName'] ) ? $data['AuthorName'] : __( 'the author', 'madebyrobert-advanced-asset-manager' ) ) ),
-        esc_html__( 'Buy me a coffee', 'madebyrobert-advanced-asset-manager' )
+        '<a href="%s" target="_blank" rel="noopener nofollow">☕ %s</a>',
+        esc_url( 'https://buymeacoffee.com/robertpalmer/' ),
+        esc_html__( 'Buy me a coffee', 'mbr-elementor-form-icons' )
     );
-
     return $links;
 }, 10, 3 );
 
-define( 'MBR_EFI_VERSION',         '1.2.8' );
+define( 'MBR_EFI_VERSION',         '1.2.9' );
 define( 'MBR_EFI_PLUGIN_DIR',      plugin_dir_path( __FILE__ ) );
 define( 'MBR_EFI_PLUGIN_URL',      plugin_dir_url( __FILE__ ) );
 define( 'MBR_EFI_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );

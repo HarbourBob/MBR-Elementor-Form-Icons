@@ -4,7 +4,7 @@ Tags: elementor, form, icons, font awesome, elementor pro
 Requires at least: 5.8
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.2.8
+Stable tag: 1.2.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,6 +23,7 @@ Designed as a lightweight, free alternative to premium solutions — no upsells,
 * Per-field icon, colour, and size controls
 * Full support for Elementor global colours
 * Live preview updates in the Elementor editor
+* Supports any number of fields of the same type (multiple text fields, multiple textareas, etc.)
 * Automatically loads Font Awesome from Elementor's bundled copy — no extra HTTP requests
 * Works with single-line inputs and textarea fields
 * No premium version, no upsells
@@ -60,9 +61,21 @@ Yes. Both hex colours and Elementor global colour variables are fully supported.
 
 = Does it work with all field types? =
 
-Icons can be added to text, email, textarea, and most standard field types.
+Icons can be added to text, email, textarea, and most standard field types. Multiple fields of the same type are fully supported. The submit button field is excluded as it is not a standard input.
+
+= Can I have more than one text field with different icons? =
+
+Yes. Each field has its own independent icon settings regardless of field type. Any number of text fields, email fields, or textareas can each have their own icon, colour, and size.
+
+== Screenshots ==
+
+1. Form fields with placeholder icons in the Elementor editor
+2. Per-field icon controls in the field settings panel
 
 == Changelog ==
+
+= 1.2.9 =
+* Fixed: Multiple fields of the same type (e.g. two text fields) now each receive their own correct icon — previously all same-type fields matched the first DOM element due to incorrect positional matching in the editor preview fallback
 
 = 1.2.8 =
 * Fixed: Global colours not applying correctly on the frontend due to missing field type data in localised script output
@@ -94,5 +107,5 @@ Icons can be added to text, email, textarea, and most standard field types.
 
 == Upgrade Notice ==
 
-= 1.2.8 =
-Fixes global colours not applying on the frontend. Update recommended.
+= 1.2.9 =
+Fixes icons not working correctly when a form contains multiple fields of the same type. Update recommended.
