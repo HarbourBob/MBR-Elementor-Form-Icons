@@ -8,10 +8,6 @@
 
 ---
 
-![MBR Elementor Form Icons]([https://raw.githubusercontent.com/madebyrobert/mbr-elementor-form-icons/main/mbr-forms.webp](https://raw.githubusercontent.com/madebyrobert/mbr-elementor-form-icons/main/mbr-forms.webp))
-
----
-
 **Add Font Awesome icons to your Elementor Pro form fields — beautifully, simply, for free.**
 
 Choose between two display modes: drop an icon *inside* the field as a placeholder, or place it *above* alongside the label. Control icon, colour, and size on a per-field basis, with full support for Elementor global colours and live editor preview updates.
