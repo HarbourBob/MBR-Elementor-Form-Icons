@@ -111,7 +111,7 @@ mbr-elementor-form-icons/
 
 ## 🤝 Contributing
 
-Found a bug or have a feature idea? [Open an issue](https://github.com/madebyrobert/mbr-elementor-form-icons/issues) or submit a pull request. All contributions welcome.
+Found a bug or have a feature idea? [Open an issue](https://github.com/harbourbob/mbr-elementor-form-icons/issues) or submit a pull request. All contributions welcome.
 
 ---
 
