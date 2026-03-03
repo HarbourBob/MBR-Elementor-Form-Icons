@@ -5,6 +5,7 @@
 [![PHP Version](https://img.shields.io/badge/PHP-7.4%2B-777BB4?style=flat-square&logo=php)](https://php.net)
 [![License](https://img.shields.io/badge/license-GPL%20v2%2B-green?style=flat-square)](https://www.gnu.org/licenses/gpl-2.0.html)
 [![Requires Elementor Pro](https://img.shields.io/badge/requires-Elementor%20Pro-E2215B?style=flat-square)](https://elementor.com/pro)
+[![GitHub Downloads](https://img.shields.io/github/downloads/harbourbob/mbr-elementor-form-icons/total?style=flat-square&color=brightgreen&logo=github)](https://github.com/harbourbob/mbr-elementor-form-icons/releases)
 
 ---
 
