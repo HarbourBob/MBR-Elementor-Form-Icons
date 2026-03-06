@@ -3,7 +3,7 @@
  * Plugin Name: MBR Elementor Form Icons
  * Plugin URI: https://littlewebshack.com
  * Description: Add Font Awesome icons to Elementor Pro form fields - in placeholders or above fields
- * Version: 1.2.9
+ * Version: 1.4.0
  * Author: Robert Palmer
  * Author URI: https://littlewebshack.com
  * License: GPL v2 or later
@@ -26,7 +26,7 @@ add_filter( 'plugin_row_meta', function ( $links, $file, $data ) {
     return $links;
 }, 10, 3 );
 
-define( 'MBR_EFI_VERSION',         '1.2.9' );
+define( 'MBR_EFI_VERSION',         '1.4.0' );
 define( 'MBR_EFI_PLUGIN_DIR',      plugin_dir_path( __FILE__ ) );
 define( 'MBR_EFI_PLUGIN_URL',      plugin_dir_url( __FILE__ ) );
 define( 'MBR_EFI_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );

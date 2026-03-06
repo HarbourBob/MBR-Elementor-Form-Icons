@@ -4,7 +4,7 @@ Tags: elementor, form, icons, font awesome, elementor pro
 Requires at least: 5.8
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.2.9
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,19 @@ Yes. Each field has its own independent icon settings regardless of field type. 
 2. Per-field icon controls in the field settings panel
 
 == Changelog ==
+
+= 1.4.0 =
+* Changed: Placeholder icons now remain visible when typing - no longer hide on input
+* Removed: Auto-hide behavior that was causing icons to disappear
+
+* Fixed: Prevented duplicate event handler attachment by tracking which inputs have already been processed
+* Fixed: Event handler now finds icon by DOM traversal rather than closure reference to prevent stale references
+
+* Fixed: Added defensive CSS and distinct class names to ensure above-position icons are never hidden
+* Fixed: Improved event handler scoping to prevent cross-contamination between icon positions
+
+= 1.3.0 =
+* Fixed: Icons in "above" position now correctly remain visible when user types into field — previously all icons (both above and placeholder) were incorrectly hidden on input
 
 = 1.2.9 =
 * Fixed: Multiple fields of the same type (e.g. two text fields) now each receive their own correct icon — previously all same-type fields matched the first DOM element due to incorrect positional matching in the editor preview fallback

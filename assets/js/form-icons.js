@@ -92,14 +92,25 @@
             var iconStyle = 'color:' + field.color + ';font-size:' + field.size + 'px;line-height:1;';
 
             if ( field.position === 'above' ) {
+                console.log('MBR EFI: Creating ABOVE icon for field:', fieldId);
                 var $label = $group.find( 'label' ).first();
                 if ( ! $label.length ) return;
-                $label.prepend( $( '<i>', {
-                    'class': field.icon + ' mbr-efi-icon',
+                
+                // Create icon for above position - this should NEVER be hidden
+                var $aboveIcon = $( '<i>', {
+                    'class': field.icon + ' mbr-efi-icon mbr-efi-icon-above',
                     'aria-hidden': 'true',
                     'style': iconStyle + 'display:inline-block;margin-right:5px;vertical-align:middle;'
-                } ) );
+                } );
+                
+                $label.prepend( $aboveIcon );
+                console.log('MBR EFI: Above icon created, NO event handler attached');
+                
+                // Do NOT attach any hide/show handlers for above position
+                
             } else {
+                console.log('MBR EFI: Creating PLACEHOLDER icon for field:', fieldId);
+                // Placeholder position
                 $group.css( 'position', 'relative' );
                 var $input = $group.find( 'input, textarea' ).first();
                 if ( ! $input.length ) return;
@@ -109,15 +120,19 @@
                 var iconPos     = isTextarea
                     ? 'position:absolute;left:12px;top:' + ( inputTop + 10 ) + 'px;transform:none;pointer-events:none;z-index:1;'
                     : 'position:absolute;left:12px;top:' + ( inputTop + Math.floor( inputHeight / 2 ) ) + 'px;transform:translateY(-50%);pointer-events:none;z-index:1;';
-                $group.append( $( '<i>', {
-                    'class': field.icon + ' mbr-efi-placeholder-icon',
+                
+                // Create placeholder icon
+                var $placeholderIcon = $( '<i>', {
+                    'class': field.icon + ' mbr-efi-icon mbr-efi-placeholder-icon',
                     'aria-hidden': 'true',
                     'style': iconStyle + iconPos
-                } ) );
-                $input.addClass( 'mbr-efi-padded' ).css( 'padding-left', ( field.size + 20 ) + 'px' );
-                $input.on( 'input.mbrEfi change.mbrEfi', function () {
-                    $group.find( '.mbr-efi-placeholder-icon' ).toggle( $( this ).val() === '' );
                 } );
+                
+                $group.append( $placeholderIcon );
+                $input.addClass( 'mbr-efi-padded' ).css( 'padding-left', ( field.size + 20 ) + 'px' );
+                
+                // Icons stay visible always - no hide/show behavior
+                
             }
         } );
     }
