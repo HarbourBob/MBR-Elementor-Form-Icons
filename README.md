@@ -1,6 +1,6 @@
 # MBR Elementor Form Icons
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://littlewebshack.com)
+[![Version](https://img.shields.io/badge/version-1.4.0-blue.svg)](https://littlewebshack.com)
 [![WordPress](https://img.shields.io/badge/WordPress-5.8%2B-21759b.svg?logo=wordpress&logoColor=white)](https://wordpress.org)
 [![Elementor Pro](https://img.shields.io/badge/Elementor_Pro-3.0%2B-92003b.svg?logo=elementor&logoColor=white)](https://elementor.com)
 [![PHP](https://img.shields.io/badge/PHP-7.4%2B-777bb4.svg?logo=php&logoColor=white)](https://php.net)
