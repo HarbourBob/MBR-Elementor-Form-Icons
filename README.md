@@ -77,7 +77,6 @@ wp-content/plugins/
    - **Icon Size** — 10px to 50px slider
 8. Click **Update** or **Preview** to see your icons
 
-> ℹ️ Icon changes are visible in **Preview mode** or on the **Frontend**. The Elementor editor live preview does not reflect icon changes in real time.
 
 ---
 
