@@ -5,8 +5,7 @@
 [![Elementor Pro](https://img.shields.io/badge/Elementor_Pro-3.0%2B-92003b.svg?logo=elementor&logoColor=white)](https://elementor.com)
 [![PHP](https://img.shields.io/badge/PHP-7.4%2B-777bb4.svg?logo=php&logoColor=white)](https://php.net)
 [![Font Awesome](https://img.shields.io/badge/Font_Awesome-6.5.1-528dd7.svg?logo=font-awesome&logoColor=white)](https://fontawesome.com)
-[![License](https://img.shields.io/badge/License-GPL_v2%2B-green.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
-[![Made by Robert](https://img.shields.io/badge/Made_by-Robert-orange.svg)](https://littlewebshack.com)
+[![Downloads](https://img.shields.io/github/downloads/harbourbob/MBR-Elementor-Form-Icons/total)](https://github.com/harbourbob/MBR-Elementor-Form-Icons/releases)
 
 > Add beautiful Font Awesome icons to your Elementor Pro form fields — beautifully and effortlessly.
 
