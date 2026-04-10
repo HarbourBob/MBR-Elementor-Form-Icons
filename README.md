@@ -14,12 +14,7 @@
 
 ## 📸 Preview
 
-```
-Name    [ 👤  Name...          ]
-Email   [ ✉️  Email...         ]
-Message [ ✏️  Your message...  ]
-        [       Send           ]
-```
+Atomic Form Icons.png
 
 ---
 
