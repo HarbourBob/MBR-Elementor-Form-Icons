@@ -1,6 +1,6 @@
 # MBR Elementor Form Icons
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://littlewebshack.com)
+[![Version](https://img.shields.io/badge/version-1.5.0-blue.svg)](https://littlewebshack.com)
 [![WordPress](https://img.shields.io/badge/WordPress-5.8%2B-21759b.svg?logo=wordpress&logoColor=white)](https://wordpress.org)
 [![Elementor Pro](https://img.shields.io/badge/Elementor_Pro-3.0%2B-92003b.svg?logo=elementor&logoColor=white)](https://elementor.com)
 [![PHP](https://img.shields.io/badge/PHP-7.4%2B-777bb4.svg?logo=php&logoColor=white)](https://php.net)
@@ -29,7 +29,7 @@ Message [ ✏️  Your message...  ]
 - 📍 **Two Positioning Options** — Above the field label, or inside the field as an overlay icon
 - 🎨 **Full Customisation** — Control icon colour and size per field
 - 📐 **Smart Textarea Handling** — Icons in textarea fields pin to the top rather than centering
-- 🙈 **Hide on Input** — Placeholder icons gracefully disappear when users start typing
+- 🙈 **Detect Atomic Forms** — Automatically compatible with Version 4.01 Atomic Forms Elements
 - ⚡ **Lightweight** — Clean data-attribute approach with no inline scripts
 - 📱 **Responsive** — Works perfectly on all screen sizes
 - 🔧 **Per-Field Control** — Enable icons on individual fields independently
