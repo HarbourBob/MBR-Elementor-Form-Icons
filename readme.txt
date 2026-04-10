@@ -1,124 +1,46 @@
 === MBR Elementor Form Icons ===
 Contributors: robertpalmer
-Tags: elementor, form, icons, font awesome, elementor pro
+Tags: elementor, form, icons, font awesome, atomic
 Requires at least: 5.8
-Tested up to: 6.9
+Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.4.0
+Stable tag: 1.5.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Add Font Awesome icons to Elementor Pro form fields — display them as inline placeholders or above field labels.
+Add Font Awesome icons to Elementor Pro form fields — supports both the classic Form widget and the new atomic Form > Input element (Elementor 4.0+).
 
 == Description ==
 
-MBR Elementor Form Icons lets you enhance your Elementor Pro forms with Font Awesome icons on a per-field basis. Choose to display each icon as a placeholder inside the input field, or alongside the field label above it.
+MBR Elementor Form Icons lets you add Font Awesome icons to your Elementor Pro forms with zero code.
 
-Designed as a lightweight, free alternative to premium solutions — no upsells, no vendor lock-in.
+**Dual-mode support:**
 
-**Features**
+* **Classic Form widget** — per-field icon controls in the repeater (above field or in placeholder).
+* **Atomic Form > Input element (Elementor 4.0.1+)** — icon sits inside the input placeholder area. Size and Color are controlled via the auto-generated Style panel under "Icon".
 
-* Add Font Awesome icons to any Elementor Pro form field
-* Two display modes: placeholder (inside the field) or above (next to the label)
-* Per-field icon, colour, and size controls
-* Full support for Elementor global colours
-* Live preview updates in the Elementor editor
-* Supports any number of fields of the same type (multiple text fields, multiple textareas, etc.)
-* Automatically loads Font Awesome from Elementor's bundled copy — no extra HTTP requests
-* Works with single-line inputs and textarea fields
-* No premium version, no upsells
+The plugin automatically detects which architecture is active and loads the correct mode. Both can run side-by-side on the same site.
 
-**Requirements**
+**Icon selection** — 75 popular Font Awesome icons are available from a dropdown in the Content panel: user, envelope, phone, lock, search, home, globe, building, calendar, comment, credit card, map marker, tag, pen, briefcase, heart, star, bell, link, hashtag and many more.
 
-* Elementor (free) — latest version recommended
-* Elementor Pro — required for the Form widget
+**Free, no upsells, no premium tier.**
 
 == Installation ==
 
-1. Upload the `mbr-elementor-form-icons` folder to the `/wp-content/plugins/` directory, or install via the WordPress plugin screen.
-2. Activate the plugin through the **Plugins** screen in WordPress.
-3. Open any page containing an Elementor Pro form in the Elementor editor.
-4. Click a form field to select it, then open the **MBR Icons** tab in the field settings.
-5. Enable the icon toggle, choose your icon, position, colour and size.
-
-== Frequently Asked Questions ==
-
-= Does this work with the free version of Elementor? =
-
-The Form widget is an Elementor Pro feature, so Elementor Pro is required. The plugin will not load if Elementor Pro is not active.
-
-= Which icons are supported? =
-
-Any Font Awesome icon available in Elementor's icon picker. The plugin loads Font Awesome from Elementor's own bundled copy so no additional stylesheet is added if Font Awesome is already present on the page.
-
-= Will icons show in the Elementor editor preview? =
-
-Yes. Icons are injected into the live editor preview and update when you change field settings.
-
-= Does it support Elementor global colours? =
-
-Yes. Both hex colours and Elementor global colour variables are fully supported.
-
-= Does it work with all field types? =
-
-Icons can be added to text, email, textarea, and most standard field types. Multiple fields of the same type are fully supported. The submit button field is excluded as it is not a standard input.
-
-= Can I have more than one text field with different icons? =
-
-Yes. Each field has its own independent icon settings regardless of field type. Any number of text fields, email fields, or textareas can each have their own icon, colour, and size.
-
-== Screenshots ==
-
-1. Form fields with placeholder icons in the Elementor editor
-2. Per-field icon controls in the field settings panel
+1. Upload the `mbr-elementor-form-icons` folder to `/wp-content/plugins/`.
+2. Activate via the Plugins screen.
+3. **Classic forms:** edit any Form widget, expand a field's Content tab, and toggle "Enable Icon".
+4. **Atomic inputs:** drag a Form > Input element, open its Content panel, toggle "Enable Icon" and choose an icon.
 
 == Changelog ==
 
+= 1.5.0 =
+* NEW: Atomic Form > Input element support (Elementor 4.0.1+).
+* Icon renders inside the input placeholder area via custom Twig template.
+* Style panel "Icon" section with Size and Color controls (auto-generated).
+* Transparently replaces the stock atomic Input widget — no manual steps.
+* Classic Form widget support retained and unchanged.
+
 = 1.4.0 =
-* Changed: Placeholder icons now remain visible when typing - no longer hide on input
-* Removed: Auto-hide behavior that was causing icons to disappear
-
-* Fixed: Prevented duplicate event handler attachment by tracking which inputs have already been processed
-* Fixed: Event handler now finds icon by DOM traversal rather than closure reference to prevent stale references
-
-* Fixed: Added defensive CSS and distinct class names to ensure above-position icons are never hidden
-* Fixed: Improved event handler scoping to prevent cross-contamination between icon positions
-
-= 1.3.0 =
-* Fixed: Icons in "above" position now correctly remain visible when user types into field — previously all icons (both above and placeholder) were incorrectly hidden on input
-
-= 1.2.9 =
-* Fixed: Multiple fields of the same type (e.g. two text fields) now each receive their own correct icon — previously all same-type fields matched the first DOM element due to incorrect positional matching in the editor preview fallback
-
-= 1.2.8 =
-* Fixed: Global colours not applying correctly on the frontend due to missing field type data in localised script output
-
-= 1.2.7 =
-* Fixed: Global colours (CSS custom properties) stripped by hex-only sanitization — now accepts both hex and `var(--e-global-color-*)` values
-
-= 1.2.6 =
-* Fixed: Placeholder icon vertical alignment on single-line inputs now centres precisely within the input rather than the field group
-* Fixed: Textarea placeholder icon now positions at the top of the field rather than vertically centred
-
-= 1.2.5 =
-* Fixed: Jittery placeholder text shift during editor re-renders caused by orphaned padding-left on inputs
-
-= 1.2.4 =
-* Fixed: Editor preview icon injection falling back to field type selector when `elementor-field-group-{id}` classes are absent in the editor preview template
-
-= 1.2.3 =
-* Fixed: Script execution context detection — injection now correctly targets the preview iframe
-* Improved: Polling-based injection replaces unreliable event-based approach for editor re-renders
-
-= 1.2.2 =
-* Fixed: Icons disappearing after Elementor editor re-renders by switching to pure JavaScript injection
-* Fixed: Font Awesome loaded from Elementor's bundled copy with CDN fallback
-* Fixed: Stale DOM references replaced with live `document.querySelector` calls
-
-= 1.2.1 =
-* Initial public release
-
-== Upgrade Notice ==
-
-= 1.2.9 =
-Fixes icons not working correctly when a form contains multiple fields of the same type. Update recommended.
+* Icons always visible (no hide-on-focus behaviour).
+* Improved editor preview fallback matching.

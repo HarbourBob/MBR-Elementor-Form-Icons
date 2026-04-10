@@ -2,8 +2,8 @@
 /**
  * Plugin Name: MBR Elementor Form Icons
  * Plugin URI: https://littlewebshack.com
- * Description: Add Font Awesome icons to Elementor Pro form fields - in placeholders or above fields
- * Version: 1.4.0
+ * Description: Add Font Awesome icons to Elementor Pro form fields — supports both classic Form widget and atomic Form > Input elements
+ * Version: 1.5.0
  * Author: Robert Palmer
  * Author URI: https://littlewebshack.com
  * License: GPL v2 or later
@@ -26,7 +26,7 @@ add_filter( 'plugin_row_meta', function ( $links, $file, $data ) {
     return $links;
 }, 10, 3 );
 
-define( 'MBR_EFI_VERSION',         '1.4.0' );
+define( 'MBR_EFI_VERSION',         '1.5.0' );
 define( 'MBR_EFI_PLUGIN_DIR',      plugin_dir_path( __FILE__ ) );
 define( 'MBR_EFI_PLUGIN_URL',      plugin_dir_url( __FILE__ ) );
 define( 'MBR_EFI_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -54,12 +54,73 @@ class MBR_Elementor_Form_Icons {
             return;
         }
 
+        // Classic form widget support.
         require_once MBR_EFI_PLUGIN_DIR . 'includes/class-form-field-controls.php';
 
         add_action( 'elementor/init', [ $this, 'init_components' ] );
         add_action( 'elementor/frontend/after_enqueue_styles', [ $this, 'enqueue_frontend_assets' ] );
         add_action( 'elementor/editor/after_enqueue_scripts',  [ $this, 'enqueue_editor_assets' ] );
+
+        // Atomic form input support (Elementor 4.0+).
+        $this->maybe_init_atomic();
     }
+
+    /* ------------------------------------------------------------------
+     * Atomic widgets – replace the stock Input with our icon-aware version
+     * ----------------------------------------------------------------*/
+
+    private function maybe_init_atomic() {
+        if ( ! defined( 'ELEMENTOR_VERSION' ) || version_compare( ELEMENTOR_VERSION, '4.0', '<' ) ) {
+            return;
+        }
+
+        add_filter( 'elementor/widgets/register', [ $this, 'replace_atomic_input' ], 999 );
+        add_action( 'elementor/frontend/after_enqueue_styles', [ $this, 'enqueue_atomic_styles' ] );
+    }
+
+    /**
+     * If the stock atomic Input is registered, unregister it and register ours.
+     *
+     * Runs at priority 999 on elementor/widgets/register — well after
+     * Elementor Pro's atomic form module registers the stock Input at
+     * the default priority.
+     */
+    public function replace_atomic_input( $widgets_manager ) {
+        if ( ! class_exists( 'ElementorPro\\Modules\\AtomicForm\\Input\\Input' ) ) {
+            return $widgets_manager;
+        }
+
+        $registered = $widgets_manager->get_widget_types();
+        if ( ! isset( $registered['e-form-input'] ) ) {
+            return $widgets_manager;
+        }
+
+        try {
+            require_once MBR_EFI_PLUGIN_DIR . 'includes/class-atomic-input-icon.php';
+
+            $widgets_manager->unregister( 'e-form-input' );
+            $widgets_manager->register( new \MBR\ElementorFormIcons\Atomic\Atomic_Input_Icon() );
+        } catch ( \Throwable $e ) {
+            // Silently fall back to the stock Input widget.
+        }
+
+        return $widgets_manager;
+    }
+
+    public function enqueue_atomic_styles() {
+        $this->enqueue_font_awesome();
+
+        wp_enqueue_style(
+            'mbr-efi-atomic-styles',
+            MBR_EFI_PLUGIN_URL . 'assets/css/atomic-form-icons.css',
+            [],
+            MBR_EFI_VERSION
+        );
+    }
+
+    /* ------------------------------------------------------------------
+     * Classic form widget support
+     * ----------------------------------------------------------------*/
 
     public function init_components() {
         MBR_EFI_Form_Field_Controls::get_instance();
@@ -133,16 +194,8 @@ class MBR_Elementor_Form_Icons {
 
     /**
      * Enqueue Font Awesome from Elementor's own bundled copy.
-     *
-     * Elementor ships FA inside its plugin at:
-     *   /wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css
-     *
-     * This avoids CDN requests (which may be blocked by the host's CSP)
-     * and avoids loading a duplicate when Elementor has already loaded it.
      */
     private function enqueue_font_awesome() {
-
-        // If FA is already on the page via any handle, do nothing.
         $existing_handles = [
             'font-awesome-6-all', 'font-awesome-5-all',
             'font-awesome-6-solid', 'font-awesome-5-solid',
@@ -154,22 +207,12 @@ class MBR_Elementor_Form_Icons {
             }
         }
 
-        // Load from Elementor's bundled FA — same files, no external request.
-        // ELEMENTOR_URL is defined by Elementor core on every request.
-        $fa_url = ELEMENTOR_URL . 'assets/lib/font-awesome/css/all.min.css';
-
-        // Verify the file actually exists at that path before enqueuing
+        $fa_url  = ELEMENTOR_URL . 'assets/lib/font-awesome/css/all.min.css';
         $fa_path = ELEMENTOR_PATH . 'assets/lib/font-awesome/css/all.min.css';
 
         if ( file_exists( $fa_path ) ) {
-            wp_enqueue_style(
-                'mbr-efi-fontawesome',
-                $fa_url,
-                [],
-                ELEMENTOR_VERSION
-            );
+            wp_enqueue_style( 'mbr-efi-fontawesome', $fa_url, [], ELEMENTOR_VERSION );
         } else {
-            // Fallback: try the CDN
             wp_enqueue_style(
                 'mbr-efi-fontawesome',
                 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css',
@@ -180,7 +223,6 @@ class MBR_Elementor_Form_Icons {
     }
 
     public function enqueue_frontend_assets() {
-
         $this->enqueue_font_awesome();
 
         wp_enqueue_style(

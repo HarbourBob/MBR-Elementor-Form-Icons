@@ -1,91 +1,23 @@
 # Changelog
 
-All notable changes to MBR Elementor Form Icons will be documented in this file.
+All notable changes to MBR Elementor Form Icons are documented here.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
-## [1.0.0] - 2026-01-27
+## [1.5.0] – 2026-04-10
 
 ### Added
-- Initial release of MBR Elementor Form Icons
-- Font Awesome icon integration with Elementor Pro forms
-- Four icon positioning options:
-  - Above field
-  - In placeholder text
-  - Inside field (left)
-  - Inside field (right)
-- Icon customization controls:
-  - Icon library selection (Solid, Regular, Brands)
-  - Icon class input
-  - Color picker
-  - Size slider
-- Support for standard Elementor form field types:
-  - Text
-  - Email
-  - Textarea
-  - Tel
-  - URL
-  - Password
-  - Number
-- Responsive design with mobile optimization
-- RTL language support
-- Automatic Font Awesome 6.5.1 loading
-- Editor preview integration
-- Clean, semantic HTML output
-- Performance optimized asset loading
-- WordPress coding standards compliance
-- Full internationalization support
+- **Atomic Form > Input support (Elementor 4.0.1+):** extends the stock atomic Input widget with a Font Awesome icon positioned inside the input placeholder area.
+- Content panel "Icon" section with Enable Icon toggle and 20-icon dropdown selector.
+- Style panel "Icon" section with auto-generated Size and Color controls.
+- Custom Twig template that wraps the input in a container with an absolutely-positioned `<i>` element.
+- Dedicated `atomic-form-icons.css` stylesheet for atomic icon layout.
+- Robust widget replacement via `elementor/widgets/register` at priority 999 with class-existence detection (no fragile experiment-name checks).
 
-### Technical Details
-- Hooks into Elementor Pro form field rendering
-- Uses Elementor's native control system
-- JavaScript-based field enhancement
-- CSS-based positioning and styling
-- No database modifications
-- No external dependencies beyond Elementor Pro
+### Unchanged
+- Classic Form widget support fully retained from 1.4.0.
+- Font Awesome loading strategy (Elementor bundled copy with CDN fallback).
 
----
+## [1.4.0] – 2026-03-05
 
-## Planned Features
-
-### [1.1.0] - Future Release
-- Icon preview in Elementor editor
-- Icon search and browse interface
-- Icon animation options
-- Additional icon library support (Material Icons, Bootstrap Icons)
-- Icon tooltip functionality
-- Click actions on icons
-
-### [1.2.0] - Future Release
-- Conditional icon display based on field state
-- Field validation indicators
-- Icon presets library
-- Form templates with pre-configured icons
-- Custom icon position fine-tuning
-- Icon spacing controls
-
-### [2.0.0] - Future Release
-- Custom icon upload support
-- SVG icon library
-- Icon library manager
-- Advanced icon effects and animations
-- Icon-based field masking
-- Multi-icon support per field
-
----
-
-## Version History
-
-| Version | Release Date | Status |
-|---------|-------------|--------|
-| 1.0.0   | 2026-01-27  | Stable |
-
----
-
-**Note**: This plugin follows semantic versioning:
-- MAJOR version for incompatible API changes
-- MINOR version for backwards-compatible functionality additions
-- PATCH version for backwards-compatible bug fixes
-
-For detailed changes, security updates, and upgrade notices, see the [readme.txt](readme.txt) file.
+### Changed
+- Icons now always visible (removed hide-on-focus behaviour).
+- Improved editor preview fallback matching for fields without group-ID classes.

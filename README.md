@@ -1,11 +1,12 @@
 # MBR Elementor Form Icons
 
-[![Version](https://img.shields.io/badge/version-1.4.0-blue.svg)](https://littlewebshack.com)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://littlewebshack.com)
 [![WordPress](https://img.shields.io/badge/WordPress-5.8%2B-21759b.svg?logo=wordpress&logoColor=white)](https://wordpress.org)
 [![Elementor Pro](https://img.shields.io/badge/Elementor_Pro-3.0%2B-92003b.svg?logo=elementor&logoColor=white)](https://elementor.com)
 [![PHP](https://img.shields.io/badge/PHP-7.4%2B-777bb4.svg?logo=php&logoColor=white)](https://php.net)
 [![Font Awesome](https://img.shields.io/badge/Font_Awesome-6.5.1-528dd7.svg?logo=font-awesome&logoColor=white)](https://fontawesome.com)
-[![Downloads](https://img.shields.io/github/downloads/harbourbob/MBR-Elementor-Form-Icons/total)](https://github.com/harbourbob/MBR-Elementor-Form-Icons/releases)
+[![License](https://img.shields.io/badge/License-GPL_v2%2B-green.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
+[![Made by Robert](https://img.shields.io/badge/Made_by-Robert-orange.svg)](https://littlewebshack.com)
 
 > Add beautiful Font Awesome icons to your Elementor Pro form fields — beautifully and effortlessly.
 
@@ -76,6 +77,7 @@ wp-content/plugins/
    - **Icon Size** — 10px to 50px slider
 8. Click **Update** or **Preview** to see your icons
 
+> ℹ️ Icon changes are visible in **Preview mode** or on the **Frontend**. The Elementor editor live preview does not reflect icon changes in real time.
 
 ---
 
