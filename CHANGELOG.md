@@ -2,6 +2,11 @@
 
 All notable changes to MBR Elementor Form Icons are documented here.
 
+## [1.5.1] – 2026-07-16
+
+### Added
+- Self-hosted update support via Plugin Update Checker 5.7, checking the GitHub-hosted manifest (`HarbourBob/mbr-updates`).
+
 ## [1.5.0] – 2026-04-10
 
 ### Added

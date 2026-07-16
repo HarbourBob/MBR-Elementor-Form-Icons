@@ -92,7 +92,6 @@
             var iconStyle = 'color:' + field.color + ';font-size:' + field.size + 'px;line-height:1;';
 
             if ( field.position === 'above' ) {
-                console.log('MBR EFI: Creating ABOVE icon for field:', fieldId);
                 var $label = $group.find( 'label' ).first();
                 if ( ! $label.length ) return;
                 
@@ -104,12 +103,10 @@
                 } );
                 
                 $label.prepend( $aboveIcon );
-                console.log('MBR EFI: Above icon created, NO event handler attached');
                 
                 // Do NOT attach any hide/show handlers for above position
                 
             } else {
-                console.log('MBR EFI: Creating PLACEHOLDER icon for field:', fieldId);
                 // Placeholder position
                 $group.css( 'position', 'relative' );
                 var $input = $group.find( 'input, textarea' ).first();

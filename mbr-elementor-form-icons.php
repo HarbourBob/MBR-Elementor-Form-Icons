@@ -3,7 +3,7 @@
  * Plugin Name: MBR Elementor Form Icons
  * Plugin URI: https://littlewebshack.com
  * Description: Add Font Awesome icons to Elementor Pro form fields — supports both classic Form widget and atomic Form > Input elements
- * Version: 1.5.0
+ * Version: 1.5.1
  * Author: Robert Palmer
  * Author URI: https://littlewebshack.com
  * License: GPL v2 or later
@@ -26,10 +26,27 @@ add_filter( 'plugin_row_meta', function ( $links, $file, $data ) {
     return $links;
 }, 10, 3 );
 
-define( 'MBR_EFI_VERSION',         '1.5.0' );
+define( 'MBR_EFI_VERSION',         '1.5.1' );
 define( 'MBR_EFI_PLUGIN_DIR',      plugin_dir_path( __FILE__ ) );
 define( 'MBR_EFI_PLUGIN_URL',      plugin_dir_url( __FILE__ ) );
 define( 'MBR_EFI_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+
+/*
+ * Self-hosted updates via Plugin Update Checker (PUC 5.7).
+ * Manifest lives on GitHub raw to avoid host cache-header issues.
+ */
+if ( ! function_exists( 'mbr_efi_init_update_checker' ) ) {
+	function mbr_efi_init_update_checker() {
+		require_once MBR_EFI_PLUGIN_DIR . 'plugin-update-checker/plugin-update-checker.php';
+
+		\YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
+			'https://raw.githubusercontent.com/HarbourBob/mbr-updates/main/mbr-elementor-form-icons.json',
+			__FILE__,
+			'mbr-elementor-form-icons'
+		);
+	}
+	mbr_efi_init_update_checker();
+}
 
 class MBR_Elementor_Form_Icons {
 

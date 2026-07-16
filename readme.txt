@@ -4,7 +4,7 @@ Tags: elementor, form, icons, font awesome, atomic
 Requires at least: 5.8
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.5.0
+Stable tag: 1.5.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,7 +21,7 @@ MBR Elementor Form Icons lets you add Font Awesome icons to your Elementor Pro f
 
 The plugin automatically detects which architecture is active and loads the correct mode. Both can run side-by-side on the same site.
 
-**Icon selection** — 75 popular Font Awesome icons are available from a dropdown in the Content panel: user, envelope, phone, lock, search, home, globe, building, calendar, comment, credit card, map marker, tag, pen, briefcase, heart, star, bell, link, hashtag and many more.
+**Icon selection** — 20 popular Font Awesome icons are available from a dropdown in the Content panel: user, envelope, phone, lock, search, home, globe, building, calendar, comment, credit card, map marker, tag, pen, briefcase, heart, star, bell, link, and hashtag.
 
 **Free, no upsells, no premium tier.**
 
@@ -30,9 +30,12 @@ The plugin automatically detects which architecture is active and loads the corr
 1. Upload the `mbr-elementor-form-icons` folder to `/wp-content/plugins/`.
 2. Activate via the Plugins screen.
 3. **Classic forms:** edit any Form widget, expand a field's Content tab, and toggle "Enable Icon".
-4. **Atomic inputs:** drag a Form > Input element, open its Content panel, toggle "Enable Icon" and choose an icon.
+4. **Atomic inputs:** drag a Form > Input element, open its Content panel, toggle "Enable Icon" and choose an icon. Adjust Size and Color in the Style panel under "Icon".
 
 == Changelog ==
+
+= 1.5.1 =
+* Self-hosted updates via Plugin Update Checker 5.7 (GitHub-hosted manifest).
 
 = 1.5.0 =
 * NEW: Atomic Form > Input element support (Elementor 4.0.1+).
